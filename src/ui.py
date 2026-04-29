@@ -2,6 +2,7 @@ from tkinter import *
 from client import *
 import pickle
 from time import sleep
+import datetime
 
 # global uid
 # global s
@@ -73,6 +74,7 @@ def open_new_window(uid, ip, s):
         nickname = uid_to_nickname(to_uid, s)
         user_nickname = uid_to_nickname(uid, s)
         chat = Toplevel(main)
+        chat.protocol("WM_DELETE_WINDOW", logging.debug("Chat window killed"))
         chat.title(f"Chat - {nickname}")
         chat.geometry("700x500")
 
@@ -87,18 +89,32 @@ def open_new_window(uid, ip, s):
 
         for message in messages:
             if message[0] == uid:
-                Label(chat, text=f"{uid_to_nickname(uid, s)} - {message[2]}", anchor="e", fg='blue', wraplength=300, justify=LEFT).pack(side=BOTTOM, fill=X)
+                Label(
+                    chat, 
+                    text=f"{uid_to_nickname(uid, s)} - {message[2]}", 
+                    anchor="e", 
+                    fg='blue', 
+                    wraplength=300, 
+                    justify=LEFT).pack(side=BOTTOM, fill=X
+                )
             elif (message[1][0] == "g") and (message[1] == to_uid) and (message[0] != uid):
-                Label(chat, text=f"{uid_to_nickname(message[0], s)} - {message[2]}", anchor="w", fg='red', wraplength=300, justify=LEFT).pack(side=BOTTOM, fill=X)
+                Label(
+                    chat, 
+                    text=f"{uid_to_nickname(message[0], s)} - {message[2]}", 
+                    anchor="w", 
+                    fg='red', 
+                    wraplength=300, 
+                    justify=LEFT).pack(side=BOTTOM, fill=X
+                )
             elif message[0] == to_uid:
-                Label(chat, text=f"{uid_to_nickname(to_uid, s)} - {message[2]}", anchor="w", fg='red', wraplength=300, justify=LEFT).pack(side=BOTTOM, fill=X)
-
-
-        # display = Label(chat, text=f"{id} - Hi Balazs!", anchor='w', fg='red', wraplength=300, justify=LEFT)
-        # display.pack(side=BOTTOM, fill=X)
-
-        # display = Label(chat, text=f"Balazs - Hi {id}!", anchor='e', fg='blue')
-        # display.pack(side=BOTTOM, fill=X)
+                Label(
+                    chat, 
+                    text=f"{uid_to_nickname(to_uid, s)} - {message[2]}", 
+                    anchor="w", 
+                    fg='red', 
+                    wraplength=300, 
+                    justify=LEFT).pack(side=BOTTOM, fill=X
+                )
 
         chat.bind('<Return>', enter_text)
 
